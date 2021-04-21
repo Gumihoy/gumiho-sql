@@ -70,6 +70,7 @@ public enum SQLKeyWord {
     BINARY_INTEGER("binary_integer", "BINARY_INTEGER"),
     BIT("bit", "BIT"),
     BITAND("bitand", "BITAND"),
+    BITMAP("bitmap", "BITMAP"),
     BLOB("blob", "BLOB"),
     BLOCK("block", "BLOCK"),
     BLOCKSIZE("blocksize", "BLOCKSIZE"),
@@ -279,6 +280,7 @@ public enum SQLKeyWord {
     FREEPOOLS("freepools", "FREEPOOLS"),
     FROM("from", "FROM"),
     FULL("full", "FULL"),
+    FULLTEXT("fulltext", "FULLTEXT"),
     FUNCTION("function", "FUNCTION"),
 
     // G
@@ -685,6 +687,7 @@ public enum SQLKeyWord {
     SOME("some", "SOME"),
     SORT("sort", "SORT"),
     SOUNDS("sounds", "SOUNDS"),
+    SPATIAL("spatial", "SPATIAL"),
     SPECIFIC(""),
     SPECIFICATION("specification", "SPECIFICATION"),
     SPECIFICTYPE(""),

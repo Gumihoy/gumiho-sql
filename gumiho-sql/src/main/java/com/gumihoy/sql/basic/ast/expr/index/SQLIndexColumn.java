@@ -42,6 +42,13 @@ public class SQLIndexColumn extends AbstractSQLExpr {
 //    protected SQLNullOrderingType nullOrdering;
 
 
+    public SQLIndexColumn() {
+    }
+
+    public SQLIndexColumn(ISQLExpr name) {
+        this.name = name;
+    }
+
     @Override
     protected void accept0(ISQLASTVisitor visitor) {
 //        if (visitor.visit(this)) {

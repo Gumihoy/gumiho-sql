@@ -1,6 +1,8 @@
 package com.gumihoy.sql.basic.parser.statement;
 
+import com.gumihoy.sql.basic.ast.ISQLObject;
 import com.gumihoy.sql.basic.ast.expr.ISQLExpr;
+import com.gumihoy.sql.basic.ast.expr.index.SQLIndexColumn;
 import com.gumihoy.sql.basic.ast.expr.index.alter.ISQLAlterIndexAction;
 import com.gumihoy.sql.basic.ast.expr.index.alter.partition.SQLAlterIndexAddPartition;
 import com.gumihoy.sql.basic.ast.expr.index.alter.partition.SQLAlterIndexCoalescePartition;
@@ -19,6 +21,8 @@ import com.gumihoy.sql.basic.parser.SQLExprParser;
 import com.gumihoy.sql.basic.parser.SQLParserException;
 import com.gumihoy.sql.basic.parser.SQLToken;
 
+import java.util.List;
+
 /**
  * @author kent on 2019-06-25.
  */
@@ -32,6 +36,44 @@ public class SQLIndexStatementParser extends AbstractSQLStatementParser {
     public SQLCreateIndexStatement parseCreate() {
         throw new UnsupportedOperationException("Create Index.");
     }
+
+    public SQLCreateIndexStatement.SQLCategory parseCategory() {
+    if (this.acceptAndNextToken(SQLToken.TokenKind.UNIQUE)) {
+        return SQLCreateIndexStatement.SQLCategory.UNIQUE;
+    }
+        if (this.acceptAndNextToken(SQLToken.TokenKind.BITMAP)) {
+            return SQLCreateIndexStatement.SQLCategory.BITMAP;
+        }
+        if (this.acceptAndNextToken(SQLToken.TokenKind.FULLTEXT)) {
+            return SQLCreateIndexStatement.SQLCategory.FULLTEXT;
+        }
+        if (this.acceptAndNextToken(SQLToken.TokenKind.SPATIAL)) {
+            return SQLCreateIndexStatement.SQLCategory.SPATIAL;
+        }
+        return null;
+    }
+
+    public void parseIndexColumns(List<SQLIndexColumn> columns, ISQLObject parent) {
+        if (this.acceptAndNextToken(SQLToken.TokenKind.LPAREN)) {
+
+            for (;;) {
+                SQLIndexColumn column = parseIndexColumn();
+                column.setParent(parent);
+                columns.add(column);
+                if (!this.acceptAndNextToken(SQLToken.TokenKind.COMMA)) {
+                    break;
+                }
+            }
+
+            this.acceptAndNextToken(SQLToken.TokenKind.RPAREN, true);
+        }
+    }
+    public SQLIndexColumn parseIndexColumn() {
+        ISQLExpr name = exprParser.parseExpr();
+
+        return new SQLIndexColumn(name);
+    }
+
 
 
     public SQLAlterIndexStatement parseAlter() {

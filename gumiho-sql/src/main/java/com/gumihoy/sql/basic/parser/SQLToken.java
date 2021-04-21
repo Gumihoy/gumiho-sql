@@ -117,6 +117,7 @@ public class SQLToken {
         BINARY_FLOAT(SQLKeyWord.BINARY_FLOAT),
         BINARY_INTEGER(SQLKeyWord.BINARY_INTEGER),
         BIT(SQLKeyWord.BIT),
+        BITMAP(SQLKeyWord.BITMAP),
         BLOB(SQLKeyWord.BLOB),
         BLOCK(SQLKeyWord.BLOCK),
         BLOCKSIZE(SQLKeyWord.BLOCKSIZE),
@@ -307,6 +308,7 @@ public class SQLToken {
         FREEPOOLS(SQLKeyWord.FREEPOOLS),
         FROM(SQLKeyWord.FROM),
         FULL(SQLKeyWord.FULL),
+        FULLTEXT(SQLKeyWord.FULLTEXT),
         FUNCTION(SQLKeyWord.FUNCTION),
 
         // G
@@ -687,9 +689,11 @@ public class SQLToken {
         SOME(SQLKeyWord.SOME),
         SORT(SQLKeyWord.SORT),
         SOUNDS(SQLKeyWord.SOUNDS),
+        SPATIAL(SQLKeyWord.SPATIAL),
         SPECIFIC(SQLKeyWord.SPECIFIC),
         SPECIFICATION(SQLKeyWord.SPECIFICATION),
         SPECIFICTYPE(SQLKeyWord.SPECIFICTYPE),
+
         SPLIT(SQLKeyWord.SPLIT),
         SQL(SQLKeyWord.SQL),
         SQL_BIG_RESULT(SQLKeyWord.SQL_BIG_RESULT),

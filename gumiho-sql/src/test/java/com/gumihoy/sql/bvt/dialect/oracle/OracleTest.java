@@ -12,25 +12,12 @@ public class OracleTest {
 
     @Test
     public void test_0() {
-        String sql = "SELECT p1.snap_id, p1.dbid, p1.instance_number as instance_num, TO_CHAR(t1.BEGIN_INTERVAL_TIME, 'yyyy-MM-dd HH24:mi:ss') as BEGIN_INTERVAL_TIME, TO_CHAR(t1.END_INTERVAL_TIME, 'yyyy-MM-dd HH24:mi:ss') as END_INTERVAL_TIME, (f1. VALUE - p1. VALUE) /( extract( DAY FROM( end_interval_time - begin_interval_time)) * 24 * 60 * 60 + extract( HOUR FROM( end_interval_time - begin_interval_time)) * 60 * 60 + extract( MINUTE FROM( end_interval_time - begin_interval_time)) * 60 + extract( SECOND FROM( end_interval_time - begin_interval_time))) QPS, TO_CHAR(SYSDATE, 'yyyy-MM-dd HH24:mi:ss') as collection_time FROM dba_hist_sysstat p1, dba_hist_sysstat f1, dba_hist_snapshot t1 WHERE p1.snap_Id =(f1.snap_id - 1) AND p1.stat_name = 'parse count (total)' AND f1.stat_name = 'parse count (total)' AND p1.snap_id = t1.snap_id";
+        String sql = "   SELECT /* tpostUnityboardDAOMap.xml 엄소희 2007.09.13 4 */                 RNUM                 , ONUM                 , BRD_INFO_NO                 , BRD_INFO_SBJCT                 , TO_CHAR(CREATE_DT,'YYYYMMDD') CREATE_DT                 , RDCNT                 , RPLY_CNT                 , RECM_CNT                 , DISP_YN                 , SVC_CLF                 , EDU_CORS_GR_CD                 , BRD_INFO_URL                 , BRD_INFO_CLF_NO                 , TO_CHAR(EDU_DY,'YYYYMMDD') EDU_DY                 , CHRG_YN                 , FNSH_YN                 , TOTAL_COUNT                 , MEM_NM                 , MEM_ID                 , ANSWER_YN         FROM (             SELECT                 rownum RNUM                 , (x.total_count + 1 - rownum) ONUM                 , x.BRD_INFO_NO                 , x.BRD_INFO_SBJCT                 , x.CREATE_DT                 , x.RDCNT                 , x.RPLY_CNT                 , x.RECM_CNT                 , x.DISP_YN                 , x.SVC_CLF                 , x.EDU_CORS_GR_CD                 , x.BRD_INFO_URL                 , x.BRD_INFO_CLF_NO                 , x.EDU_DY                 , x.CHRG_YN                 , x.FNSH_YN                 , x.TOTAL_COUNT                 , x.MEM_NM                 , x.MEM_ID                 , x.ANSWER_YN             FROM             (                 SELECT DISTINCT                     a.BRD_INFO_NO                     , a.BRD_INFO_SBJCT                     , a.CREATE_DT                     , a.RDCNT                     , a.RPLY_CNT                     , a.RECM_CNT                     , a.DISP_YN                     , a.SVC_CLF                     , a.EDU_CORS_GR_CD                     , a.BRD_INFO_URL                     , a.BRD_INFO_CLF_NO                     , a.EDU_DY                     , a.CHRG_YN                     , a.FNSH_YN                     , COUNT(DISTINCT a.BRD_INFO_NO) over() TOTAL_COUNT                     , b.EMP_NM MEM_NM                     , b.EMP_ID MEM_ID                     , NVL((SELECT 'Y' FROM cm_unity_brd_info d  WHERE d.HGRNK_BRD_INFO_NO = a.BRD_INFO_NO AND rownum = 1),'N') ANSWER_YN                 FROM                     cm_unity_brd_info a                     , sy_emp b                     , cm_week_poplt_prd c                 WHERE                     a.UNITY_BRD_NO = ?                     AND a.BRD_INFO_CLF = '03'                     AND a.DEL_YN = 'N'                     AND a.HGRNK_BRD_INFO_NO = 0                     AND a.CREATE_NO = b.EMP_NO                     AND a.BRD_INFO_NO = c.BRD_INFO_NO                                              AND                             TO_CHAR(a.CREATE_DT,'YYYYMMDD') BETWEEN TO_CHAR(TO_DATE(?),'YYYYMMDD') AND TO_CHAR(TO_DATE(?),'YYYYMMDD')                                                  AND                             a.DISP_YN = ?                                                                                                                                           ORDER BY '' ''    ) x   )   WHERE    1 = 1                                      AND ? <= RNUM AND RNUM < ?           \n";
         System.out.println(sql);
         String format = SQLUtils.format(sql, DBType.Oracle);
         System.out.println("----------------");
         System.out.println(format);
-        Assert.assertEquals("SELECT p1.snap_id,\n" +
-                "  p1.dbid,\n" +
-                "  p1.instance_number                                       AS instance_num,\n" +
-                "  TO_CHAR(t1.BEGIN_INTERVAL_TIME, 'yyyy-MM-dd HH24:mi:ss') AS BEGIN_INTERVAL_TIME,\n" +
-                "  TO_CHAR(t1.END_INTERVAL_TIME, 'yyyy-MM-dd HH24:mi:ss')   AS END_INTERVAL_TIME,\n" +
-                "  (f1. VALUE - p1. VALUE) /( extract( DAY FROM( end_interval_time - begin_interval_time)) * 24 * 60 * 60 + extract( HOUR FROM( end_interval_time - begin_interval_time)) * 60 * 60 + extract( MINUTE FROM( end_interval_time - begin_interval_time)) * 60 + extract( SECOND FROM( end_interval_time - begin_interval_time))) QPS,\n" +
-                "  TO_CHAR(SYSDATE, 'yyyy-MM-dd HH24:mi:ss') AS collection_time\n" +
-                "FROM dba_hist_sysstat p1,\n" +
-                "  dba_hist_sysstat f1,\n" +
-                "  dba_hist_snapshot t1\n" +
-                "WHERE p1.snap_Id =(f1.snap_id - 1)\n" +
-                "AND p1.stat_name = 'parse count (total)'\n" +
-                "AND f1.stat_name = 'parse count (total)'\n" +
-                "AND p1.snap_id   = t1.snap_id", format);
+        Assert.assertEquals(sql, format);
     }
 
 

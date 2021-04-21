@@ -22,7 +22,39 @@ public class OracleIndexStatementParser extends SQLIndexStatementParser {
 
     @Override
     public SQLCreateIndexStatement parseCreate() {
-        return super.parseCreate();
+        SQLCreateIndexStatement x = new SQLCreateIndexStatement(this.dbType);
+
+        this.acceptAndNextToken(SQLToken.TokenKind.CREATE, true);
+
+        x.setCategory(parseCategory());
+
+        this.acceptAndNextToken(SQLToken.TokenKind.INDEX, true);
+
+        x.setName(exprParser.parseName());
+
+        this.acceptAndNextToken(SQLToken.TokenKind.ON, true);
+
+        boolean cluster = this.acceptAndNextToken(SQLToken.TokenKind.CLUSTER);
+
+        exprParser.parseTableReference();
+
+        if (this.acceptAndNextToken(SQLToken.TokenKind.LPAREN)) {
+
+            for (;;) {
+                
+                if (!this.acceptAndNextToken(SQLToken.TokenKind.COMMA)) {
+                    break;
+                }
+            }
+
+            this.acceptAndNextToken(SQLToken.TokenKind.RPAREN, true);
+        }
+
+        exprParser.parseFrom();
+        exprParser.parseWhere();
+
+
+        return x;
     }
 
 
